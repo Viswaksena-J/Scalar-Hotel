@@ -8,7 +8,7 @@ const Booking = require("./models/Booking");
 require("dotenv").config();
 
 const mongodbURL = "mongodb+srv://sushanth123:sushanth123@sumanth1.apxwy1f.mongodb.net/?retryWrites=true&w=majority";
-const port = process.env.port || 8000;
+const port = process.env.port || 3000;
 
 // Create a new Express.js app
 const app = express();

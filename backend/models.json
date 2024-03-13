@@ -1,0 +1,13 @@
+[
+    { "roomNumber": "A1", "roomType": "A", "pricePerHour": 100 },
+    { "roomNumber": "A2", "roomType": "A", "pricePerHour": 100 },
+    { "roomNumber": "B1", "roomType": "B", "pricePerHour": 80 },
+    { "roomNumber": "B2", "roomType": "B", "pricePerHour": 80 },
+    { "roomNumber": "B3", "roomType": "B", "pricePerHour": 80 },
+    { "roomNumber": "C1", "roomType": "C", "pricePerHour": 50 },
+    { "roomNumber": "C2", "roomType": "C", "pricePerHour": 50 },
+    { "roomNumber": "C3", "roomType": "C", "pricePerHour": 50 },
+    { "roomNumber": "C4", "roomType": "C", "pricePerHour": 50 },
+    { "roomNumber": "C5", "roomType": "C", "pricePerHour": 50 }
+  ]
+  

@@ -1,11 +1,34 @@
 const mongoose = require("mongoose");
 
-const roomSchema = new mongoose.Schema({
-    roomNumber: { type: String, required: true, unique: true },
-    roomType: { type: String, required: true },
-    pricePerHour: { type: Number, required: true },
-  },{
+// Define the schema
+const roomSchema = new mongoose.Schema(
+  {
+    roomNumber: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      uppercase: true,
+    },
+    roomType: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    pricePerHour: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+  },
+  {
     timestamps: true,
-  });
+    versionKey: false,
+  }
+);
 
-module.exports = mongoose.model("Room", roomSchema);
+
+// Create the model
+const Room = mongoose.model("Room", roomSchema);
+
+module.exports = Room;

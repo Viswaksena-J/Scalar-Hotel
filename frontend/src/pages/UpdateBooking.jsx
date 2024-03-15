@@ -10,6 +10,7 @@ const BookingForm = () => {
     const newDate = new Date(date);
     return newDate.toISOString().slice(0, 16);
   }
+
   function getDate2(date) {
     const newDate = new Date(date);
     return newDate.toISOString().slice(0, 16);
@@ -21,14 +22,11 @@ const BookingForm = () => {
   const [postUpdate, setPostUpdate] = useState(false);
   const [booking, setBooking] = useState({
     id: useLocation().state._id,
-    userEmail: useLocation().state.userEmail,
-    userName: useLocation().state.userName,
+    email: useLocation().state.email,
     roomNumber: useLocation().state.roomNumber,
     startTime: useLocation().state.startTime,
     endTime: useLocation().state.endTime,
     price: useLocation().state.price,
-    paymentType: useLocation().state.paymentType,
-    tip: useLocation().state.tip,
   });
 
   useEffect(() => {
@@ -64,7 +62,6 @@ const BookingForm = () => {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
         setPricePerHour(response.data.pricePerHour);
       })
       .catch(function (error) {
@@ -97,40 +94,29 @@ const BookingForm = () => {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
         if (response.data.acknowledged === true) {
           toast.success("Booking Updated");
           setPostUpdate(true);
         } else toast.error("Booking Failed");
       })
       .catch(function (error) {
-        console.log(error);
         toast.error(error.response.data.message);
       });
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h1>Update Booking</h1>
+      <h1 className="text-center font-bold items-center justify-center mt-2 text-2xl">
+        Update Booking
+      </h1>
+
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Guest Email address</Form.Label>
         <Form.Control
           type="email"
           placeholder="Enter email"
-          value={booking.userEmail}
-          name="userEmail"
-          onChange={handleInputChange}
-          required
-        />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Guest Name</Form.Label>
-        <Form.Control
-          type="name"
-          placeholder="Enter name"
-          value={booking.userName}
-          name="userName"
+          value={booking.email}
+          name="email"
           onChange={handleInputChange}
           required
         />
@@ -146,6 +132,7 @@ const BookingForm = () => {
           required
         />
       </Form.Group>
+
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Start Time:</Form.Label>
         <Form.Control
@@ -156,6 +143,7 @@ const BookingForm = () => {
           required
         />
       </Form.Group>
+
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>End Time:</Form.Label>
         <Form.Control
@@ -166,6 +154,7 @@ const BookingForm = () => {
           required
         />
       </Form.Group>
+
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Price:</Form.Label>
         <Form.Control
@@ -176,31 +165,8 @@ const BookingForm = () => {
           disabled
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Payment Type:</Form.Label>
-        <Form.Control
-          type="text"
-          name="paymentType"
-          value={booking.paymentType}
-          onChange={handleInputChange}
-          required
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Tip:</Form.Label>
-        <Form.Control
-          type="number"
-          name="tip"
-          value={booking.tip}
-          onChange={handleInputChange}
-          required
-        />
-        <Form.Text className="text-muted">
-         A tip is not required but is appreciated
-        </Form.Text>
-      </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button type="submit" className="bg-blue-500">
         Update Booking
       </Button>
     </Form>

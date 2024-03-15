@@ -4,15 +4,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
+import emailjs from "emailjs-com";
+import { Row } from "react-bootstrap";
 
 const BookingForm = () => {
   const roomNumber = useLocation().state.roomNumber;
   const pricePerHour = useLocation().state.pricePerHour;
   const navigate = useNavigate();
   const [postAdded, setPostAdded] = useState(false);
-  const [priceDisplay, setPriceDisplay] = useState();
+  const [priceDisplay, setPriceDisplay] = useState(0);
   const [booking, setBooking] = useState({
-    userEmail: "",
+    email: "",
     userName: "",
     roomNumber: roomNumber,
     startTime: "",
@@ -21,10 +23,12 @@ const BookingForm = () => {
     paymentType: "",
     tip: 0,
   });
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setBooking({ ...booking, [name]: value });
   };
+
   useEffect(() => {
     if (postAdded) {
       navigate("/view");
@@ -49,69 +53,89 @@ const BookingForm = () => {
     const hours = Math.ceil(milliseconds / 36e5);
     const price = hours * pricePerHour;
     const updatedBooking = { ...booking, price };
-    var config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "/bookings",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: updatedBooking,
-    };
+    try {
+      const response = await axios.post("/bookings", updatedBooking);
+      if (response.data._id !== undefined) {
+        toast.success("Booking Made");
+        setPostAdded(true);
 
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        if (response.data._id !== undefined) {
-          toast.success("Booking Made");
-          setPostAdded(true);
-        } else toast.error("Booking Failed");
-      })
-      .catch(function (error) {
-        console.log(error);
-        toast.error(error.response.data.message);
-      });
+        if (booking.email.trim() !== "") {
+          const templateParams = {
+            from_name: "Scaler Hotel",
+            email: booking.email,
+            message: `Dear ${
+              booking.userName
+            },\n\nThank you for choosing our hotel. Your booking details are as follows:\n\nRoom Number: ${
+              booking.roomNumber
+            }\nStart Time: ${new Date(
+              booking.startTime
+            ).toLocaleString()}\nEnd Time: ${new Date(
+              booking.endTime
+            ).toLocaleString()}\n\nWe look forward to welcoming you at our hotel. If you have any questions 
+            or need further assistance, feel free to contact us.\n\nBest regards,\nScaler Hotels`,
+          };
+
+          await emailjs.send(
+            "service_q63ssv9",
+            "template_rqireru",
+            templateParams,
+            "rHsabqnKHqIolh4dh"
+          );
+          console.log("Email sent successfully!");
+        } else {
+          console.log("Email address is empty, skipping email sending.");
+        }
+      } else {
+        toast.error("Booking Failed");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <h1>Add Booking</h1>
+    <Form onSubmit={handleSubmit} id="form">
+      <h1 className="text-4xl text-center font-bold mt-2">Add Booking</h1>
 
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Guest Email-address</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
-          value={booking.userEmail}
-          name="email"
-          onChange={handleInputChange}
-          required
-        />
-      </Form.Group>
+      <Row className="mb-2 mt-2">
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={booking.email}
+            name="email"
+            onChange={handleInputChange}
+            required
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Guest Name</Form.Label>
-        <Form.Control
-          type="name"
-          placeholder="Enter name"
-          value={booking.userName}
-          name="userName"
-          onChange={handleInputChange}
-          required
-        />
-      </Form.Group>
+        <Form.Group controlId="formBasicName">
+          <Form.Label className="mt-2">Guest Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter name"
+            value={booking.userName}
+            name="userName"
+            onChange={handleInputChange}
+            required
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicName">
-        <Form.Label>Room Number:</Form.Label>
-        <Form.Control
-          type="text"
-          name="roomNumber"
-          value={booking.roomNumber}
-          onChange={handleInputChange}
-          required
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group controlId="formBasicRoomNumber">
+          <Form.Label className="mt-2">Room Number:</Form.Label>
+          <Form.Control
+            type="text"
+            name="roomNumber"
+            value={booking.roomNumber}
+            onChange={handleInputChange}
+            required
+          />
+        </Form.Group>
+      </Row>
+
+      <Form.Group controlId="formBasicStartTime">
         <Form.Label>Start Time:</Form.Label>
         <Form.Control
           type="datetime-local"
@@ -121,7 +145,8 @@ const BookingForm = () => {
           required
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+
+      <Form.Group controlId="formBasicEndTime">
         <Form.Label>End Time:</Form.Label>
         <Form.Control
           type="datetime-local"
@@ -131,30 +156,32 @@ const BookingForm = () => {
           required
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+
+      <Form.Group controlId="formBasicPrice">
         <Form.Label>Price:</Form.Label>
         <Form.Control
-          type="number"
+          type="text"
           name="price"
           value={priceDisplay}
           required
           disabled
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+
+      <Form.Group controlId="formBasicPaymentType">
         <Form.Label>Payment Type:</Form.Label>
-        <select
+        <Form.Control
+          as="select"
           name="paymentType"
-          class="form-control"
-          id="exampleFormControlSelect1"
           value={booking.paymentType}
           onChange={handleInputChange}
         >
           <option>Card</option>
           <option>UPI</option>
-        </select>
+        </Form.Control>
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+
+      <Form.Group controlId="formBasicTip">
         <Form.Label>Tip:</Form.Label>
         <Form.Control
           type="number"
@@ -167,7 +194,12 @@ const BookingForm = () => {
         </Form.Text>
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button
+        variant="primary"
+        type="submit"
+        id="button"
+        className="bg-blue-500 text-white mt-2 active:bg-blue-600"
+      >
         Confirm Booking
       </Button>
     </Form>

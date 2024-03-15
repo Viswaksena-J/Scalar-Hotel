@@ -1,18 +1,17 @@
-// Import required modules
 const express = require("express");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Room = require("./models/Rooms");
 const Booking = require("./models/Booking");
+
 require("dotenv").config();
 
 const mongodbURL = "mongodb+srv://sushanth123:sushanth123@sumanth1.apxwy1f.mongodb.net/?retryWrites=true&w=majority";
-const port = process.env.port || 3000;
+const port = process.env.port || 9000;
 
-// Create a new Express.js app
 const app = express();
 
+// Middleware
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', '*');
@@ -20,7 +19,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Configure body-parser middleware to handle JSON data
 app.use(bodyParser.json());
 
 // Connect to the MongoDB database
@@ -29,17 +27,13 @@ mongoose.connect(mongodbURL, {
   useUnifiedTopology: true,
 });
 
-// Create a MongoDB model for rooms
-
-
-// Create a MongoDB model for bookings
-
 //Default route
 app.get("/", (req, res) => {
   res.send("The backend server is working!");
 });
 
 // Define routes for rooms and bookings
+// Get rooms
 app.get("/rooms", async (req, res) => {
   try {
     const rooms = await Room.find();
@@ -49,6 +43,7 @@ app.get("/rooms", async (req, res) => {
   }
 });
 
+// Get a single room
 app.get("/rooms/:roomNumber", async (req, res) => {
   try {
     const room = await Room.findOne({ roomNumber: req.params.roomNumber });
@@ -62,19 +57,7 @@ app.get("/rooms/:roomNumber", async (req, res) => {
   }
 });
 
-app.get("/bookings/:id", async (req, res) => {
-  try {
-    const book = await Booking.findOne({ _id: req.params.id });
-    if(book){
-    res.json(book);
-  } else {
-    res.status(404).json({ message: "Booking not found" });
-  }
-} catch (err) {
-  res.status(500).json({ message: err.message });
-}
-});
-
+// Add a room
 app.post("/rooms", async (req, res) => {
   const room = new Room({
     roomNumber: req.body.roomNumber,
@@ -90,6 +73,21 @@ app.post("/rooms", async (req, res) => {
   }
 });
 
+// Delete a room
+app.delete("/rooms/:roomNumber",async (req,res) => {
+  const room = await Room.findOne({ roomNumber: req.params.roomNumber });
+  if(!room){
+    res.status(404).json({ message: "Room not found" });
+  } else {
+    try {
+      await room.deleteOne();
+      res.json({ message: "Room deleted" });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
+})
+
 app.get("/bookings", async (req, res) => {
   try {
     const bookings = await Booking.find().populate("roomNumber");
@@ -99,6 +97,21 @@ app.get("/bookings", async (req, res) => {
   }
 });
 
+//Get single booking
+app.get("/bookings/:id", async (req, res) => {
+  try {
+    const book = await Booking.findOne({ _id: req.params.id });
+    if(book){
+    res.json(book);
+  } else {
+    res.status(404).json({ message: "Booking not found" });
+  }
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
+});
+
+// Add a booking
 app.post("/bookings", async (req, res) => {
   const room = await Room.findOne({ roomNumber: req.body.roomNumber });
   const existingBooking = await Booking.findOne({
@@ -112,7 +125,7 @@ app.post("/bookings", async (req, res) => {
     res.status(400).json({ message: "Room does not exist" });
   } else {
     const booking = new Booking({
-      email: req.body.userEmail, 
+      email: req.body.email,
       userName: req.body.userName,
       roomNumber: req.body.roomNumber,
       startTime: req.body.startTime,
@@ -130,6 +143,7 @@ app.post("/bookings", async (req, res) => {
   }
 });
 
+// Update a booking by ID
 app.put("/bookings/:id", async (req, res) => {
   const booking = await Booking.findById(req.params.id);
 
@@ -158,6 +172,7 @@ app.put("/bookings/:id", async (req, res) => {
   }
 });
 
+// Delete a booking by ID
 app.delete("/bookings/:id", async (req, res) => {
   const booking = await Booking.findById(req.params.id);
 

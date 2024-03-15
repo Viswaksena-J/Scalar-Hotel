@@ -70,30 +70,30 @@ This project is a complete admin-facing solution for managing rooms in a hotel. 
 
 <div>
 <h2>Homepage</h2>
-<img src="../readme_photos/Homepage.png" alt="Homepage" width="100%">
+<img src="./readme_photos/Homepage.png" alt="Homepage" width="100%">
 </div>
 
 <div>
 <h2>Room Details</h2>
-<img src="../readme_photos/Viewdetails.png" alt="Homepage" width="100%">
+<img src="./readme_photos/Viewdetails.png" alt="Homepage" width="100%">
 </div>
 
 <div>
 <h2>Room Booking</h2>
-<img src="../readme_photos/Bookroom.png" alt="Homepage" width="100%">
+<img src="./readme_photos/Bookroom.png" alt="Homepage" width="100%">
 </div>
 
 <div>
 <h2>View Booking Details</h2>
-<img src="../readme_photos/Viewbookings.png" alt="Homepage" width="100%">
+<img src="./readme_photos/Viewbookings.png" alt="Homepage" width="100%">
 </div>
 
 <div>
 <h2>Edit Booking Details</h2>
-<img src="../readme_photos/Updatebooking.png" alt="Homepage" width="100%">
+<img src="./readme_photos/Updatebooking.png" alt="Homepage" width="100%">
 </div>
 
 <div>
 <h2>Email Notification</h2>
-<img src="../readme_photos/Emailconfirmation.jpeg" alt="Homepage" width="100%">
+<img src="./readme_photos/Emailconfirmation.jpeg" alt="Homepage" width="100%">
 </div>

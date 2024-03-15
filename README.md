@@ -1,6 +1,6 @@
 <div align="center">
 
-# Scalar Hotel
+# Scalar Hotel - Admin Room Management System
 
 </div>
 
@@ -30,7 +30,7 @@ Versal App: [`https://scalar-hotel.vercel.app/`](https://scalar-hotel.vercel.app
 ![EmailJS](https://img.shields.io/badge/EmailJS-B7178C?style=for-the-badge&logo=emailjs&logoColor=white)
 <br/>
 
-## Scalar Hotel - Admin Room Management System
+## Scalar Hotel
 
 ### <u>Description</u>
 

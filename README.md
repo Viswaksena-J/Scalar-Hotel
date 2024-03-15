@@ -4,7 +4,7 @@
 
 </div>
 
-Versal App:
+Versal App: [`https://scalar-hotel.vercel.app/`](https://scalar-hotel.vercel.app/)
 
 ## Tech Stack
 

@@ -54,7 +54,10 @@ const BookingForm = () => {
     const price = hours * pricePerHour;
     const updatedBooking = { ...booking, price };
     try {
-      const response = await axios.post("/bookings", updatedBooking);
+      const response = await axios.post(
+        "https://scalar-hotel-api.vercel.app/bookings",
+        updatedBooking
+      );
       if (response.data._id !== undefined) {
         toast.success("Booking Made");
         setPostAdded(true);

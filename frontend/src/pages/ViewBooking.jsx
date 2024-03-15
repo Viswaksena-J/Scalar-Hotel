@@ -24,13 +24,15 @@ const Bookings = () => {
   }, []);
 
   const fetchBookings = () => {
-    axios.get("/bookings").then((response) => {
-      setBookings(response.data);
-    });
+    axios
+      .get("https://scalar-hotel-api.vercel.app/bookings")
+      .then((response) => {
+        setBookings(response.data);
+      });
   };
 
   const fetchRooms = () => {
-    axios.get("/rooms").then((response) => {
+    axios.get("https://scalar-hotel-api.vercel.app/rooms").then((response) => {
       setRooms(response.data);
     });
   };
@@ -84,21 +86,25 @@ const Bookings = () => {
 
   const handleDelete = (id) => {
     if (window.confirm("Do you want to continue delete the booking") === true) {
-      axios.get(`/bookings/${id}`).then((response) => {
-        let currentDate = new Date();
-        currentDate = getDate(currentDate);
-        let createdAt = getDate(response.data.startTime);
-        const milliseconds = Math.abs(
-          Date.parse(currentDate) - Date.parse(createdAt)
-        );
-        let temp = milliseconds / 36e5;
+      axios
+        .get(`https://scalar-hotel-api.vercel.app/bookings/${id}`)
+        .then((response) => {
+          let currentDate = new Date();
+          currentDate = getDate(currentDate);
+          let createdAt = getDate(response.data.startTime);
+          const milliseconds = Math.abs(
+            Date.parse(currentDate) - Date.parse(createdAt)
+          );
+          let temp = milliseconds / 36e5;
 
-        notify(temp);
-      });
+          notify(temp);
+        });
 
-      axios.delete(`/bookings/${id}`).then(() => {
-        setBookings(bookings.filter((booking) => booking._id !== id));
-      });
+      axios
+        .delete(`https://scalar-hotel-api.vercel.app/bookings/${id}`)
+        .then(() => {
+          setBookings(bookings.filter((booking) => booking._id !== id));
+        });
     }
   };
 

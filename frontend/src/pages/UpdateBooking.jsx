@@ -54,7 +54,7 @@ const BookingForm = () => {
     var config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `/rooms/${booking.roomNumber}`,
+      url: `https://scalar-hotel-api.vercel.app/rooms/${booking.roomNumber}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -85,7 +85,7 @@ const BookingForm = () => {
     var config = {
       method: "put",
       maxBodyLength: Infinity,
-      url: `/bookings/${booking.id}`,
+      url: `https://scalar-hotel-api.vercel.app/bookings/${booking.id}`,
       headers: {
         "Content-Type": "application/json",
       },

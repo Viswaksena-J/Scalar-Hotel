@@ -1,10 +1,10 @@
 <div align="center">
 
-# Scalar Hotel - Admin Room Management System
+# Scaler Hotel - Admin Room Management System
 
 </div>
 
-Versal App: [`https://scalar-hotel.vercel.app/`](https://scalar-hotel.vercel.app/)
+Vercel App: [`https://scalar-hotel.vercel.app/`](https://scalar-hotel.vercel.app/)
 
 ## Tech Stack
 
@@ -30,7 +30,7 @@ Versal App: [`https://scalar-hotel.vercel.app/`](https://scalar-hotel.vercel.app
 ![EmailJS](https://img.shields.io/badge/EmailJS-B7178C?style=for-the-badge&logo=emailjs&logoColor=white)
 <br/>
 
-## Scalar Hotel
+## Scaler Hotel
 
 ### <u>Description</u>
 
@@ -61,6 +61,29 @@ This project is a complete admin-facing solution for managing rooms in a hotel. 
 **Frontend**: Single Page Application (SPA) developed using HTML, CSS, and Bootstrap.
 
 **Backend**: Utilizes a MongoDB database and a Nodejs as a server-side language for handling CRUD operations and business logic.
+
+## How to run
+### Steps
+1. Clone the repository 
+```bash 
+https://github.com/Viswaksena-J/Scalar-Hotel.git
+```
+2. Change MongoDB connect URL.
+```bash
+"mongodb+srv://sushanth123:sushanth123@<password>.apxwy1f.mongodb.net/?retryWrites=true&w=majority"
+```
+3. Open terminal and run the following commands
+```bash
+cd Scalar-Hotel/backend
+npm i
+npm start
+```
+4. Open new terminal and run the following commands
+```bash
+cd Scalar-Hotel/frontend
+npm i
+npm start
+```
 
 <div align="center">
 

@@ -88,6 +88,7 @@ app.delete("/rooms/:roomNumber",async (req,res) => {
   }
 })
 
+//Get all bookings
 app.get("/bookings", async (req, res) => {
   try {
     const bookings = await Booking.find().populate("roomNumber");

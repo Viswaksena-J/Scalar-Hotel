@@ -46,7 +46,6 @@ function BookingCard({ booking }) {
         <Link to="/update" state={booking}>
           <button className="btn btn-secondary btn1">Update</button>
         </Link>
-        
       </Card.Body>
     </Card>
   );

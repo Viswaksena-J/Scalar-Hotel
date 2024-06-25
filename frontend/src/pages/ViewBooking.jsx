@@ -63,6 +63,10 @@ const Bookings = () => {
       );
     }
 
+    // if(filterPrice){
+    //   filterBookings = filterBookings.filter()
+    // }
+
     if (filterEndTime) {
       console.log("Filtering by end time:", filterEndTime);
       filteredBookings = filteredBookings.filter(
@@ -110,6 +114,8 @@ const Bookings = () => {
 
   const filteredBookings = filterBookings();
 
+
+
   return (
     <div>
       <h2 className="text-3xl align-center justify-center font-bold text-center text-gray-800 mt-1">
@@ -149,6 +155,15 @@ const Bookings = () => {
             )}
           </Form.Control>
         </Form.Group>
+
+        {/* <Form.Group>
+          <Form.Label>Filter by Price</Form.Label>
+          <Form.Control
+            type="text"
+            value={filterStartTime}
+            onChange={(e) => setFilterStartTime(e.target.value)}
+          />
+        </Form.Group> */}
 
         <Form.Group>
           <Form.Label>Filter by Start Time</Form.Label>
